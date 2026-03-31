@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AUCE Navigator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- QR Scanner Library -->
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+
+body{
+font-family:"Segoe UI",sans-serif;
+margin:0;
+background-color:#9CC6DB;
+}
+
+/* HEADER */
+
+.header{
+background:linear-gradient(90deg,#3C8DB3,#6FAED1);
+color:white;
+padding:20px 40px;
+}
+
+.header h1{
+margin:0;
+font-size:24px;
+}
+
+.header p{
+margin:5px 0 0;
+font-size:14px;
+opacity:0.9;
+}
+
+/* MAIN */
+
+.container{
+padding:35px;
+}
+
+.title{
+font-size:34px;
+font-weight:700;
+margin-bottom:8px;
+}
+
+.subtitle{
+color:#555;
+margin-bottom:30px;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+max-width:900px;
+}
+
+.card{
+background:white;
+border-radius:12px;
+padding:20px;
+display:flex;
+align-items:center;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+cursor:pointer;
+transition:0.25s;
+}
+
+.card:hover{
+transform:translateY(-4px);
+box-shadow:0 8px 16px rgba(0,0,0,0.12);
+}
+
+.icon{
+width:50px;
+height:50px;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-right:15px;
+font-size:22px;
+}
+
+.qr{background:#e7ecff;color:#3b5bff;}
+.map{background:#e6f7ed;color:#1f9c5b;}
+.dir{background:#efe8ff;color:#7a57d1;}
+.help{background:#fff3e6;color:#ff7a1a;}
+
+.card h3{
+margin:0;
+font-size:18px;
+}
+
+.card p{
+margin:4px 0 0;
+font-size:14px;
+color:#777;
+}
+
+/* HOW SECTION */
+
+.how{
+margin-top:40px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
+max-width:900px;
+}
+
+/* QR SCANNER */
+
+#reader{
+width:300px;
+margin-top:20px;
+}
+
+/* 3D MAP */
+
+#map3d{
+width:500px;
+height:400px;
+margin-top:20px;
+}
+
+/* BOTTOM NAV */
+
+.navbar{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:white;
+border-top:1px solid #ddd;
+display:flex;
+justify-content:space-around;
+padding:12px 0;
+}
+
+.nav-item{
+text-align:center;
+font-size:13px;
+cursor:pointer;
+}
+
+.nav-item span{
+display:block;
+font-size:18px;
+}
+
+/* SECTIONS */
+
+.section{
+display:none;
+}
+
+.active{
+display:block;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header">
+<h1>AUCE Navigator</h1>
+<p>Andhra University College of Engineering - North Campus, Visakhapatnam</p>
+</div>
+
+<div class="container">
+
+<!-- HOME -->
+
+<div id="home" class="section active">
+
+<div class="title">Welcome to AUCE North Campus</div>
+
+<div class="subtitle">
+Navigate your way around AUCE using QR codes at each building entrance
+</div>
+
+<div class="grid">
+
+<div class="card" onclick="openScanner()">
+<div class="icon qr">▣</div>
+<div>
+<h3>Scan QR Code</h3>
+<p>Quick access to building info</p>
+</div>
+</div>
+
+<div class="card" onclick="openMap()">
+<div class="icon map">🗺</div>
+<div>
+<h3>Campus Map</h3>
+<p>View buildings in 3D</p>
+</div>
+</div>
+
+<div class="card" onclick="showSection('directory')">
+<div class="icon dir">📖</div>
+<div>
+<h3>Building Directory</h3>
+<p>Browse campus buildings</p>
+</div>
+</div>
+
+<div class="card" onclick="showSection('help')">
+<div class="icon help">ℹ</div>
+<div>
+<h3>Help & Support</h3>
+<p>Get assistance navigating campus</p>
+</div>
+</div>
+
+</div>
+
+<div class="how">
+<h3>How It Works</h3>
+<p>Scan QR codes placed at building entrances to instantly view directions and information.</p>
+</div>
+
+</div>
+
+<!-- QR SCANNER -->
+
+<div id="scanner" class="section">
+<h2>QR Scanner</h2>
+<div id="reader"></div>
+</div>
+
+<!-- DIRECTORY -->
+
+<div id="directory" class="section">
+<h2>Building Directory</h2>
+<ul>
+<li>Main Block</li>
+<li>Computer Science Department</li>
+<li>Mechanical Block</li>
+<li>Library</li>
+<li>Admin Building</li>
+</ul>
+</div>
+
+<!-- HELP -->
+
+<div id="help" class="section">
+<h2>Help & Support</h2>
+<p>If you need help navigating the campus, contact:</p>
+
+<ul>
+<li>Campus Office</li>
+<li>Security Desk</li>
+<li>Student Services</li>
+</ul>
+
+</div>
+
+<!-- PROFILE -->
+
+<div id="profile" class="section">
+<h2>User Profile</h2>
+
+<p>Name: Student</p>
+<p>Role: Visitor / Student</p>
+<p>Campus Access: Enabled</p>
+
+</div>
+
+<!-- 3D MAP -->
+
+<div id="map" class="section">
+<h2>3D Campus Map</h2>
+<div id="map3d"></div>
+</div>
+
+</div>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<div class="nav-item" onclick="showSection('home')">
+<span>🏠</span>
+Home
+</div>
+
+<div class="nav-item" onclick="showSection('directory')">
+<span>📖</span>
+Directory
+</div>
+
+<div class="nav-item" onclick="showSection('help')">
+<span>❓</span>
+Help
+</div>
+
+<div class="nav-item" onclick="showSection('profile')">
+<span>👤</span>
+Profile
+</div>
+
+</div>
+
+<script>
+
+/* SECTION SWITCHING */
+
+function showSection(id){
+
+document.querySelectorAll(".section").forEach(sec=>{
+sec.classList.remove("active")
+})
+
+document.getElementById(id).classList.add("active")
+
+}
+
+/* OPEN SCANNER */
+
+function openScanner(){
+
+showSection("scanner")
+
+const scanner = new Html5Qrcode("reader")
+
+scanner.start(
+{ facingMode: "environment" },
+{ fps:10, qrbox:250 },
+message => {
+alert("QR Code: " + message)
+}
+)
+
+}
+
+/* OPEN MAP */
+
+function openMap(){
+showSection("map")
+init3D()
+}
+
+/* THREE JS */
+
+let rendererCreated=false
+
+function init3D(){
+
+if(rendererCreated) return
+
+rendererCreated=true
+
+const scene=new THREE.Scene()
+
+const camera=new THREE.PerspectiveCamera(75,500/400,0.1,1000)
+
+const renderer=new THREE.WebGLRenderer()
+renderer.setSize(500,400)
+
+document.getElementById("map3d").appendChild(renderer.domElement)
+
+const geometry=new THREE.BoxGeometry()
+const material=new THREE.MeshBasicMaterial({color:0x3C8DB3})
+
+const cube=new THREE.Mesh(geometry,material)
+
+scene.add(cube)
+
+camera.position.z=5
+
+function animate(){
+
+requestAnimationFrame(animate)
+
+cube.rotation.x+=0.01
+cube.rotation.y+=0.01
+
+renderer.render(scene,camera)
+
+}
+
+animate()
+
+}
+
+</script>
+
+</body>
+</html>

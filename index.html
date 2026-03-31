@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AUCE Smart Campus Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue:#90cbe8;
+    --blue-dark:#90cbe8;
+    --blue-light:#90cbe8;
+    --blue-bg:#90cbe8;
+    --green:#90cbe8;
+    --green-dark:#90cbe8;
+    --purple:#90cbe8;
+    --purple-light:#90cbe8;
+    --orange:#90cbe8;
+    --orange-icon:#90cbe8;
+    --nav-icon-blue:#90cbe8;
+    --nav-icon-purple:#90cbe8;
+    --text:#111827;
+    --text-muted:#6b7280;
+    --text-light:#9ca3af;
+    --border:#e5e7eb;
+    --card:#ffffff;
+    --bg:#f9fafb;
+    --radius:12px;
+    --shadow:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.05);
+    --shadow-md:0 4px 6px rgba(0,0,0,0.07),0 2px 4px rgba(0,0,0,0.05);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative;}
+
+  /* ── TOP HEADER ── */
+  .top-bar{background:#fff;border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:300;box-shadow:var(--shadow);}
+  .univ-logo{width:48px;height:48px;flex-shrink:0;border-radius:10px;overflow:hidden;background:var(--blue-light);display:flex;align-items:center;justify-content:center;}
+  .univ-logo svg{width:34px;height:34px;}
+  .univ-info h1{font-size:0.97rem;font-weight:700;color:var(--text);line-height:1.2;}
+  .univ-info p{font-size:0.75rem;color:var(--text-muted);margin-top:1px;}
+
+  /* ── PAGES ── */
+  .page{display:none;flex-direction:column;min-height:calc(100vh - 130px);padding-bottom:80px;}
+  .page.active{display:flex;}
+
+  /* ── HERO BANNERS ── */
+  .hero-blue{background:linear-gradient(135deg,#5db8e0 0%,#4a9fc8 50%,#3a8ab8 100%);padding:28px 20px 26px;color:#fff;margin-bottom:0;}
+  .hero-blue h2{font-size:1.45rem;font-weight:700;margin-bottom:6px;line-height:1.3;}
+  .hero-blue p{font-size:0.85rem;opacity:0.93;line-height:1.5;}
+  .hero-green{background:linear-gradient(135deg,#10b981 0%,#059669 100%);padding:28px 20px 26px;color:#fff;margin-bottom:0;}
+  .hero-green h2{font-size:1.45rem;font-weight:700;margin-bottom:6px;line-height:1.3;display:flex;align-items:center;gap:10px;}
+  .hero-green p{font-size:0.85rem;opacity:0.93;line-height:1.5;}
+  .hero-purple{background:linear-gradient(135deg,#8b5cf6 0%,#7c3aed 100%);padding:24px 20px;color:#fff;margin-bottom:0;}
+
+  /* ── CONTENT WRAPPER ── */
+  .content{padding:20px;display:flex;flex-direction:column;gap:20px;}
+
+  /* ── SECTION CARDS ── */
+  .card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden;}
+  .card-pad{padding:18px 20px;}
+  .section-label{font-size:0.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;}
+
+  /* ── NOTICE CARDS ── */
+  .notice-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);padding:16px 18px;}
+  .notice-card h4{font-size:0.9rem;font-weight:600;color:var(--text);margin-bottom:4px;}
+  .notice-card p{font-size:0.8rem;color:var(--text-muted);line-height:1.5;}
+  .notice-tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:0.68rem;font-weight:600;margin-bottom:8px;}
+  .tag-blue{background:#dbeafe;color:#1d4ed8;}
+  .tag-green{background:#d1fae5;color:#065f46;}
+  .tag-orange{background:#ffedd5;color:#c2410c;}
+
+  /* ── QUICK ACCESS GRID ── */
+  .qa-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .qa-item{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);padding:16px 8px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all .18s;}
+  .qa-item:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+  .qa-icon-wrap{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;}
+  .qa-icon-wrap svg{width:26px;height:26px;}
+  .qa-label{font-size:0.78rem;font-weight:600;color:var(--text);text-align:center;line-height:1.3;}
+  .qa-sub{font-size:0.66rem;color:var(--text-muted);text-align:center;line-height:1.3;}
+  .ic-blue{background:#dbeafe;} .ic-blue svg{color:#3b82f6;stroke:#3b82f6;}
+  .ic-teal{background:#ccfbf1;} .ic-teal svg{color:#0d9488;stroke:#0d9488;}
+  .ic-purple{background:#ede9fe;} .ic-purple svg{color:#7c3aed;stroke:#7c3aed;}
+  .ic-amber{background:#fef3c7;} .ic-amber svg{color:#d97706;stroke:#d97706;}
+  .ic-green{background:#d1fae5;} .ic-green svg{color:#059669;stroke:#059669;}
+  .ic-slate{background:#f1f5f9;} .ic-slate svg{color:#475569;stroke:#475569;}
+  .ic-orange{background:#ffedd5;} .ic-orange svg{color:#f97316;stroke:#f97316;}
+  .ic-rose{background:#ffe4e6;} .ic-rose svg{color:#e11d48;stroke:#e11d48;}
+  .ic-indigo{background:#e0e7ff;} .ic-indigo svg{color:#4f46e5;stroke:#4f46e5;}
+  .ic-pink{background:#fce7f3;} .ic-pink svg{color:#db2777;stroke:#db2777;}
+  .ic-cyan{background:#cffafe;} .ic-cyan svg{color:#0891b2;stroke:#0891b2;}
+  .ic-lime{background:#ecfccb;} .ic-lime svg{color:#65a30d;stroke:#65a30d;}
+
+  /* ── 3D MAP ── */
+  .map-wrap{position:relative;background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
+  .map-3d{width:100%;height:320px;background:linear-gradient(160deg,#0f2744 0%,#1e4a70 45%,#16364f 100%);position:relative;overflow:hidden;}
+  .map-3d svg{width:100%;height:100%;}
+  .map-filters{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;border-bottom:1px solid var(--border);}
+  .map-filters::-webkit-scrollbar{display:none;}
+  .mf-btn{padding:6px 14px;border-radius:20px;font-size:0.75rem;font-weight:600;border:1.5px solid var(--border);background:#fff;color:var(--text-muted);cursor:pointer;white-space:nowrap;transition:.15s;font-family:'Inter',sans-serif;}
+  .mf-btn.active,.mf-btn:hover{background:var(--blue-dark);color:#fff;border-color:var(--blue-dark);}
+  .map-info{padding:14px 16px;}
+  .map-info h3{font-size:0.95rem;font-weight:600;color:var(--text);margin-bottom:3px;}
+  .map-info p{font-size:0.78rem;color:var(--text-muted);line-height:1.5;}
+  .landmark-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .lm-card{background:#fff;border-radius:10px;border:1px solid var(--border);padding:12px 14px;cursor:pointer;transition:.15s;}
+  .lm-card:hover{border-color:var(--blue);background:var(--blue-light);}
+  .lm-name{font-size:0.85rem;font-weight:600;color:var(--text);}
+  .lm-type{font-size:0.7rem;color:var(--text-muted);margin-top:2px;}
+
+  /* ── SEARCH BAR ── */
+  .search-wrap{position:relative;margin:0;}
+  .search-wrap input{width:100%;padding:12px 18px 12px 44px;border:1.5px solid var(--border);border-radius:10px;font-family:'Inter',sans-serif;font-size:0.88rem;color:var(--text);background:#fff;outline:none;transition:.15s;}
+  .search-wrap input:focus{border-color:var(--blue);}
+  .search-wrap input::placeholder{color:var(--text-light);}
+  .search-ico{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--text-light);}
+  .search-ico svg{width:18px;height:18px;stroke:currentColor;fill:none;}
+
+  /* ── TABS ── */
+  .tabs{display:flex;border-bottom:2px solid var(--border);background:#fff;}
+  .tab{flex:1;padding:14px 16px;font-size:0.85rem;font-weight:600;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;border-bottom:2.5px solid transparent;margin-bottom:-2px;transition:.15s;}
+  .tab.active{color:var(--blue-dark);border-bottom-color:var(--blue-dark);}
+  .tab svg{width:16px;height:16px;stroke:currentColor;fill:none;}
+
+  /* ── DIRECTORY ITEMS ── */
+  .dir-item{background:#fff;border-bottom:1px solid var(--border);padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:.12s;}
+  .dir-item:last-child{border-bottom:none;}
+  .dir-item:hover{background:var(--blue-light);}
+  .dir-ava{width:44px;height:44px;border-radius:10px;background:var(--blue-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .dir-ava svg{width:22px;height:22px;stroke:var(--blue-dark);fill:none;}
+  .dir-info h4{font-size:0.88rem;font-weight:600;color:var(--text);}
+  .dir-info p{font-size:0.75rem;color:var(--text-muted);margin-top:2px;}
+  .dir-chevron{margin-left:auto;color:var(--text-light);}
+  .dir-chevron svg{width:16px;height:16px;stroke:currentColor;fill:none;}
+
+  /* ── DEPT EXPAND ── */
+  .dept-detail{display:none;background:var(--blue-light);padding:14px 20px 16px;border-top:1px solid var(--border);}
+  .dept-detail.open{display:block;}
+  .dept-detail p{font-size:0.8rem;color:var(--text-muted);line-height:1.6;margin-bottom:6px;}
+  .dept-detail .drow{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+  .dtag{background:#fff;border:1px solid var(--border);border-radius:8px;padding:3px 10px;font-size:0.68rem;font-weight:600;color:var(--blue-dark);}
+
+  /* ── QR ── */
+  .qr-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .qr-card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;transition:.15s;}
+  .qr-card:hover{border-color:var(--blue);box-shadow:var(--shadow-md);}
+  .qr-box{width:96px;height:96px;border:1.5px solid var(--border);border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;}
+  .qr-name{font-size:0.8rem;font-weight:600;color:var(--text);text-align:center;}
+  .qr-loc{font-size:0.68rem;color:var(--text-muted);text-align:center;}
+
+  /* ── EVENTS ── */
+  .event-item{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);padding:16px;display:flex;gap:14px;}
+  .ev-date-box{background:var(--blue-dark);color:#fff;border-radius:10px;padding:8px 10px;text-align:center;min-width:46px;flex-shrink:0;}
+  .ev-day{font-size:1.3rem;font-weight:700;line-height:1;}
+  .ev-mon{font-size:0.6rem;font-weight:600;letter-spacing:.06em;opacity:.9;}
+  .ev-info h4{font-size:0.88rem;font-weight:600;color:var(--text);margin-bottom:3px;}
+  .ev-info p{font-size:0.75rem;color:var(--text-muted);line-height:1.4;}
+  .ev-tag{display:inline-block;margin-top:6px;padding:2px 10px;border-radius:20px;font-size:0.65rem;font-weight:600;background:#dbeafe;color:#1d4ed8;}
+
+  /* ── SERVICES ── */
+  .svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .svc-card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);padding:18px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:.15s;text-align:center;}
+  .svc-card:hover{border-color:var(--blue);box-shadow:var(--shadow-md);transform:translateY(-1px);}
+  .svc-card .svc-name{font-size:0.83rem;font-weight:600;color:var(--text);}
+  .svc-card .svc-desc{font-size:0.7rem;color:var(--text-muted);line-height:1.4;}
+
+  /* ── HELP ── */
+  .qs-guide{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
+  .qs-guide-title{font-size:0.9rem;font-weight:600;color:var(--text);padding:16px 18px 12px;border-bottom:1px solid var(--border);}
+  .qs-items{display:flex;flex-direction:column;}
+  .qs-row{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border);cursor:pointer;transition:.12s;}
+  .qs-row:last-child{border-bottom:none;}
+  .qs-row:hover{background:var(--blue-light);}
+  .qs-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .qs-ico svg{width:20px;height:20px;stroke:currentColor;fill:none;}
+  .qs-text h4{font-size:0.85rem;font-weight:600;color:var(--text);}
+  .qs-text p{font-size:0.73rem;color:var(--text-muted);margin-top:1px;}
+  .faq-card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
+  .faq-title{font-size:0.9rem;font-weight:600;color:var(--text);padding:16px 18px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);}
+  .faq-title svg{width:18px;height:18px;stroke:var(--text-muted);fill:none;}
+  .faq-item{border-bottom:1px solid var(--border);}
+  .faq-item:last-child{border-bottom:none;}
+  .faq-q{padding:14px 18px;font-size:0.84rem;font-weight:500;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+  .faq-q:hover{background:var(--blue-light);}
+  .faq-arr{flex-shrink:0;transition:.2s;}
+  .faq-arr svg{width:16px;height:16px;stroke:var(--text-muted);fill:none;}
+  .faq-a{display:none;padding:0 18px 14px;font-size:0.8rem;color:var(--text-muted);line-height:1.6;border-top:1px solid var(--border);}
+  .faq-a.open{display:block;}
+  .contacts-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .con-card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);padding:16px;text-align:center;}
+  .con-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}
+  .con-ico svg{width:20px;height:20px;stroke:currentColor;fill:none;}
+  .con-card h4{font-size:0.82rem;font-weight:600;color:var(--text);}
+  .con-card p{font-size:0.7rem;color:var(--text-muted);margin-top:2px;}
+  .con-card a{display:block;font-size:0.78rem;font-weight:600;color:var(--blue-dark);text-decoration:none;margin-top:6px;}
+
+  /* ── PROFILE ── */
+  .profile-hero{background:linear-gradient(135deg,#8b5cf6 0%,#7c3aed 100%);padding:24px 20px;display:flex;align-items:center;gap:16px;color:#fff;position:relative;}
+  .profile-ava-wrap{position:relative;flex-shrink:0;}
+  .profile-ava{width:80px;height:80px;border-radius:14px;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;}
+  .profile-ava svg{width:44px;height:44px;stroke:#fff;fill:none;}
+  .profile-cam{position:absolute;bottom:-4px;right:-4px;width:24px;height:24px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .profile-cam svg{width:13px;height:13px;stroke:var(--purple);fill:none;}
+  .profile-names h2{font-size:1.2rem;font-weight:700;color:#fff;}
+  .profile-names p{font-size:0.78rem;color:rgba(255,255,255,.85);margin-top:2px;}
+  .profile-badges{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+  .p-badge{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:0.72rem;font-weight:600;color:#fff;}
+  .profile-edit{position:absolute;top:20px;right:20px;color:rgba(255,255,255,.8);cursor:pointer;}
+  .profile-edit svg{width:20px;height:20px;stroke:currentColor;fill:none;}
+  .pinfo-card{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;}
+  .pinfo-title{font-size:0.88rem;font-weight:600;color:var(--text);padding:16px 18px;border-bottom:1px solid var(--border);}
+  .pinfo-grid{display:grid;grid-template-columns:1fr 1fr;}
+  .pinfo-cell{padding:14px 18px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);}
+  .pinfo-cell:nth-child(even){border-right:none;}
+  .pinfo-cell:nth-last-child(-n+2){border-bottom:none;}
+  .pinfo-ico-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+  .pinfo-ico-row svg{width:16px;height:16px;fill:none;}
+  .pinfo-lbl{font-size:0.68rem;color:var(--text-muted);font-weight:500;}
+  .pinfo-val{font-size:0.83rem;font-weight:600;color:var(--text);margin-top:2px;}
+  .paction-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .paction{background:#fff;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.12s;}
+  .paction:hover{border-color:var(--blue);background:var(--blue-light);}
+  .paction-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .paction-ico svg{width:20px;height:20px;stroke:currentColor;fill:none;}
+  .paction-text{font-size:0.82rem;font-weight:600;color:var(--text);}
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid var(--border);display:flex;z-index:300;box-shadow:0 -2px 10px rgba(0,0,0,0.06);}
+  .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px 8px;cursor:pointer;border:none;background:none;gap:4px;transition:.15s;}
+  .nav-btn svg{width:24px;height:24px;stroke:var(--text-light);fill:none;transition:.15s;}
+  .nav-btn span{font-size:0.62rem;font-weight:600;color:var(--text-light);font-family:'Inter',sans-serif;transition:.15s;}
+  .nav-btn.active svg{stroke:var(--blue-dark);}
+  .nav-btn.active span{color:var(--blue-dark);}
+  .nav-btn.active{position:relative;}
+  .nav-btn.active::after{content:'';position:absolute;top:0;left:20%;right:20%;height:2.5px;background:var(--blue-dark);border-radius:0 0 3px 3px;}
+
+  /* ── FOOTER ── */
+  .footer{background:#1e3a4a;color:#fff;padding:24px 20px;margin-top:auto;}
+  .footer-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .footer-logo-box{width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;}
+  .footer-logo-box svg{width:24px;height:24px;}
+  .footer-top h3{font-size:0.9rem;font-weight:700;}
+  .footer-top p{font-size:0.72rem;opacity:.7;margin-top:1px;}
+  .footer-links{display:flex;flex-wrap:wrap;gap:12px 20px;margin-bottom:14px;}
+  .footer-links a{color:rgba(255,255,255,.65);font-size:0.73rem;text-decoration:none;}
+  .footer-copy{font-size:0.68rem;opacity:.5;border-top:1px solid rgba(255,255,255,.1);padding-top:12px;}
+
+  /* ── TOAST ── */
+  .toast{position:fixed;bottom:76px;left:50%;transform:translateX(-50%) translateY(12px);background:#1e3a4a;color:#fff;padding:9px 20px;border-radius:24px;font-size:0.8rem;font-weight:500;opacity:0;transition:all .28s;pointer-events:none;z-index:600;white-space:nowrap;max-width:90vw;text-align:center;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ── MODAL ── */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:500;align-items:flex-end;}
+  .modal-overlay.open{display:flex;}
+  .modal-sheet{background:#fff;border-radius:20px 20px 0 0;padding:24px 20px;width:100%;max-height:75vh;overflow-y:auto;}
+  .modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px;}
+  .modal-title{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:12px;}
+  .modal-body p{font-size:0.82rem;color:var(--text-muted);line-height:1.6;margin-bottom:8px;}
+  .modal-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .mtag{background:var(--blue-light);border:1px solid var(--border);border-radius:8px;padding:4px 12px;font-size:0.72rem;font-weight:600;color:var(--blue-dark);}
+  .modal-close-btn{width:100%;margin-top:16px;padding:13px;background:var(--blue-dark);color:#fff;border:none;border-radius:10px;font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:600;cursor:pointer;}
+
+  /* ── UTIL ── */
+  .mt4{margin-top:4px;} .mt8{margin-top:8px;} .mt12{margin-top:12px;} .mt16{margin-top:16px;}
+  .primary-btn{width:100%;padding:14px;background:var(--blue-dark);color:#fff;border:none;border-radius:10px;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;transition:.15s;}
+  .primary-btn:hover{background:var(--blue);}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="univ-logo">
+    <!-- Andhra University emblem SVG -->
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40" cy="40" r="36" fill="#2e7fa8" opacity="0.15"/>
+      <circle cx="40" cy="40" r="30" fill="none" stroke="#2e7fa8" stroke-width="2"/>
+      <!-- Book shape -->
+      <rect x="26" y="32" width="12" height="18" rx="2" fill="#2e7fa8" opacity="0.8"/>
+      <rect x="42" y="32" width="12" height="18" rx="2" fill="#2e7fa8" opacity="0.8"/>
+      <rect x="38" y="30" width="4" height="22" rx="1" fill="#2e7fa8"/>
+      <!-- Torch/lamp top -->
+      <ellipse cx="40" cy="22" rx="7" ry="5" fill="#4a9fc8" opacity="0.9"/>
+      <line x1="40" y1="17" x2="40" y2="27" stroke="#2e7fa8" stroke-width="1.5"/>
+      <!-- Stars -->
+      <circle cx="26" cy="58" r="2" fill="#4a9fc8" opacity="0.7"/>
+      <circle cx="40" cy="62" r="2" fill="#4a9fc8" opacity="0.7"/>
+      <circle cx="54" cy="58" r="2" fill="#4a9fc8" opacity="0.7"/>
+    </svg>
+  </div>
+  <div class="univ-info">
+    <h1>AU College of Engineering</h1>
+    <p>North Campus, Visakhapatnam</p>
+  </div>
+</div>
+
+<!-- =================== HOME PAGE =================== -->
+<div class="page active" id="page-home">
+  <div class="hero-blue">
+    <h2>Welcome to AUCE Smart Campus Portal</h2>
+    <p>Navigate the North Campus with interactive maps, access services, and stay updated with campus information.</p>
+  </div>
+  <div class="content">
+    <div>
+      <div class="section-label">Quick Access</div>
+      <div class="qa-grid">
+        <div class="qa-item" onclick="goPage('map')">
+          <div class="qa-icon-wrap ic-blue">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 20L3 17V4L9 7M9 20L15 17M9 20V7M15 17L21 20V7L15 4M15 17V4M9 7L15 4" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="qa-label">Campus Map</div>
+          <div class="qa-sub">Interactive 3D navigation</div>
+        </div>
+        <div class="qa-item" onclick="goPage('services')">
+          <div class="qa-icon-wrap ic-teal">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 21V5C19 3.89543 18.1046 3 17 3H7C5.89543 3 5 3.89543 5 5V21M19 21H5M19 21H21M5 21H3M9 7H10M14 7H15M9 11H10M14 11H15M9 15H10M14 15H15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="qa-label">Services</div>
+          <div class="qa-sub">Campus facilities</div>
+        </div>
+        <div class="qa-item" onclick="goPage('departments')">
+          <div class="qa-icon-wrap ic-purple">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="qa-label">Departments</div>
+          <div class="qa-sub">Academic departments</div>
+        </div>
+        <div class="qa-item" onclick="goPage('events')">
+          <div class="qa-icon-wrap ic-amber">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="8" cy="15" r="1" fill="currentColor"/><circle cx="12" cy="15" r="1" fill="currentColor"/><circle cx="16" cy="15" r="1" fill="currentColor"/></svg>
+          </div>
+          <div class="qa-label">Events</div>
+          <div class="qa-sub">Upcoming campus events</div>
+        </div>
+        <div class="qa-item" onclick="goPage('qr')">
+          <div class="qa-icon-wrap ic-slate">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8"/><path d="M14 14h3v3M14 20h7M20 14v7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="5" y="5" width="3" height="3" fill="currentColor" rx="0.5"/><rect x="16" y="5" width="3" height="3" fill="currentColor" rx="0.5"/><rect x="5" y="16" width="3" height="3" fill="currentColor" rx="0.5"/></svg>
+          </div>
+          <div class="qa-label">QR Access</div>
+          <div class="qa-sub">Building QR code access</div>
+        </div>
+        <div class="qa-item" onclick="goPage('directory')">
+          <div class="qa-icon-wrap ic-green">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="qa-label">Directory</div>
+          <div class="qa-sub">Campus contacts</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label">Campus Notices</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="notice-card">
+          <span class="notice-tag tag-blue">Academic</span>
+          <h4>📢 Semester Registration Open</h4>
+          <p>Registration for Odd Semester 2025–26 is now open. Visit the Academic Section or use the portal to register.</p>
+        </div>
+        <div class="notice-card">
+          <span class="notice-tag tag-green">Smart Campus</span>
+          <h4>🔧 Smart Campus Phase 2 Launch</h4>
+          <p>QR-based building access and 3D navigation now live for all buildings. Scan QR codes at building entrances.</p>
+        </div>
+        <div class="notice-card">
+          <span class="notice-tag tag-orange">Placement</span>
+          <h4>💼 Campus Placement Drive — May 2025</h4>
+          <p>TCS, Infosys, and Wipro campus placement drive scheduled. Final year students register by April 20, 2025.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-logo-box">
+        <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><rect x="28" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="42" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="38" y="30" width="4" height="20" rx="1" fill="white"/></svg>
+      </div>
+      <div>
+        <h3>AU College of Engineering</h3>
+        <p>North Campus, Visakhapatnam – 530 003</p>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="#">About AUCE</a><a href="#">Admissions</a><a href="#">Research</a><a href="#">Alumni</a><a href="#">Contact</a>
+    </div>
+    <div class="footer-copy">© 2025 Andhra University College of Engineering. All rights reserved. | Estd. 1946</div>
+  </footer>
+</div>
+
+<!-- =================== MAP PAGE =================== -->
+<div class="page" id="page-map">
+  <div class="hero-blue">
+    <h2>Campus Map</h2>
+    <p>Explore the North Campus in 3D. Tap a building to view details.</p>
+  </div>
+  <div class="content">
+    <div class="map-wrap">
+      <div class="map-3d">
+        <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0d2137"/><stop offset="100%" stop-color="#1e4d72"/></linearGradient>
+            <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a5c22"/><stop offset="100%" stop-color="#0f3b14"/></linearGradient>
+            <filter id="bshadow"><feDropShadow dx="3" dy="5" stdDeviation="3" flood-color="rgba(0,0,0,0.5)"/></filter>
+          </defs>
+          <rect width="480" height="320" fill="url(#sky)"/>
+          <ellipse cx="240" cy="290" rx="260" ry="70" fill="url(#ground)" opacity="0.7"/>
+          <!-- Roads -->
+          <rect x="215" y="80" width="50" height="190" fill="#3a3030" rx="2" opacity="0.8"/>
+          <rect x="60" y="150" width="360" height="40" fill="#3a3030" rx="2" opacity="0.8"/>
+          <line x1="240" y1="88" x2="240" y2="138" stroke="white" stroke-width="1.5" stroke-dasharray="8,7" opacity="0.4"/>
+          <line x1="72" y1="170" x2="205" y2="170" stroke="white" stroke-width="1.5" stroke-dasharray="8,7" opacity="0.4"/>
+          <line x1="275" y1="170" x2="408" y2="170" stroke="white" stroke-width="1.5" stroke-dasharray="8,7" opacity="0.4"/>
+          <!-- Admin -->
+          <g filter="url(#bshadow)" onclick="showBldg('admin')" style="cursor:pointer">
+            <rect x="150" y="70" width="180" height="68" fill="#3a7fa8" rx="3"/>
+            <rect x="150" y="52" width="180" height="68" fill="#5aaad0" rx="3"/>
+            <text x="240" y="94" text-anchor="middle" fill="white" font-size="10" font-weight="600" font-family="Inter,sans-serif">ADMIN BLOCK</text>
+            <rect x="163" y="60" width="14" height="10" fill="rgba(255,230,100,0.65)" rx="1"/>
+            <rect x="185" y="60" width="14" height="10" fill="rgba(255,230,100,0.55)" rx="1"/>
+            <rect x="281" y="60" width="14" height="10" fill="rgba(255,230,100,0.65)" rx="1"/>
+            <rect x="303" y="60" width="14" height="10" fill="rgba(255,230,100,0.55)" rx="1"/>
+          </g>
+          <!-- CSE -->
+          <g filter="url(#bshadow)" onclick="showBldg('cse')" style="cursor:pointer">
+            <rect x="48" y="96" width="90" height="50" fill="#2e6a90" rx="3"/>
+            <rect x="48" y="82" width="90" height="50" fill="#4a90b8" rx="3"/>
+            <text x="93" y="110" text-anchor="middle" fill="white" font-size="9" font-weight="600" font-family="Inter,sans-serif">CSE BLOCK</text>
+            <rect x="58" y="88" width="11" height="8" fill="rgba(255,230,100,0.6)" rx="1"/>
+            <rect x="77" y="88" width="11" height="8" fill="rgba(255,230,100,0.5)" rx="1"/>
+            <rect x="110" y="88" width="11" height="8" fill="rgba(255,230,100,0.6)" rx="1"/>
+          </g>
+          <!-- MECH -->
+          <g filter="url(#bshadow)" onclick="showBldg('mech')" style="cursor:pointer">
+            <rect x="342" y="96" width="90" height="50" fill="#2e6a90" rx="3"/>
+            <rect x="342" y="82" width="90" height="50" fill="#4a90b8" rx="3"/>
+            <text x="387" y="110" text-anchor="middle" fill="white" font-size="9" font-weight="600" font-family="Inter,sans-serif">MECH BLOCK</text>
+            <rect x="352" y="88" width="11" height="8" fill="rgba(255,230,100,0.6)" rx="1"/>
+            <rect x="371" y="88" width="11" height="8" fill="rgba(255,230,100,0.5)" rx="1"/>
+            <rect x="410" y="88" width="11" height="8" fill="rgba(255,230,100,0.6)" rx="1"/>
+          </g>
+          <!-- Library -->
+          <g filter="url(#bshadow)" onclick="showBldg('library')" style="cursor:pointer">
+            <rect x="48" y="205" width="110" height="58" fill="#256080" rx="3"/>
+            <rect x="48" y="188" width="110" height="58" fill="#3d85a8" rx="3"/>
+            <text x="103" y="220" text-anchor="middle" fill="white" font-size="9" font-weight="600" font-family="Inter,sans-serif">LIBRARY</text>
+            <rect x="60" y="195" width="11" height="8" fill="rgba(255,230,100,0.6)" rx="1"/><rect x="80" y="195" width="11" height="8" fill="rgba(255,230,100,0.5)" rx="1"/><rect x="118" y="195" width="11" height="8" fill="rgba(255,230,100,0.6)" rx="1"/>
+          </g>
+          <!-- Labs -->
+          <g filter="url(#bshadow)" onclick="showBldg('labs')" style="cursor:pointer">
+            <rect x="310" y="205" width="122" height="58" fill="#256080" rx="3"/>
+            <rect x="310" y="188" width="122" height="58" fill="#3d85a8" rx="3"/>
+            <text x="371" y="220" text-anchor="middle" fill="white" font-size="9" font-weight="600" font-family="Inter,sans-serif">LABS COMPLEX</text>
+            <rect x="322" y="195" width="11" height="8" fill="rgba(255,230,100,0.6)" rx="1"/><rect x="342" y="195" width="11" height="8" fill="rgba(255,230,100,0.5)" rx="1"/>
+          </g>
+          <!-- Auditorium -->
+          <g filter="url(#bshadow)" onclick="showBldg('audi')" style="cursor:pointer">
+            <rect x="170" y="265" width="140" height="44" fill="#1e5070" rx="3"/>
+            <rect x="170" y="250" width="140" height="44" fill="#3478a0" rx="3"/>
+            <ellipse cx="240" cy="249" rx="38" ry="14" fill="#3d85a8"/>
+            <text x="240" y="275" text-anchor="middle" fill="white" font-size="9" font-weight="600" font-family="Inter,sans-serif">AUDITORIUM</text>
+          </g>
+          <!-- Trees -->
+          <circle cx="160" cy="202" r="16" fill="#1a6020" opacity="0.9"/><circle cx="155" cy="195" r="12" fill="#258030" opacity="0.85"/><rect x="158" y="213" width="3" height="10" fill="#4a2c10" opacity="0.7"/>
+          <circle cx="316" cy="202" r="14" fill="#1a6020" opacity="0.9"/><circle cx="311" cy="195" r="10" fill="#258030" opacity="0.85"/>
+          <circle cx="196" cy="147" r="12" fill="#1a6020" opacity="0.85"/>
+          <circle cx="284" cy="147" r="12" fill="#1a6020" opacity="0.85"/>
+          <!-- Compass -->
+          <g transform="translate(448,30)">
+            <circle r="18" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+            <text y="-6" text-anchor="middle" fill="white" font-size="9" font-weight="700">N</text>
+            <text y="13" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="7">S</text>
+            <text x="-11" y="4" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="7">W</text>
+            <text x="12" y="4" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="7">E</text>
+            <polygon points="0,-12 2.5,0 0,3 -2.5,0" fill="#ef4444" opacity="0.85"/>
+            <polygon points="0,3 2.5,0 0,12 -2.5,0" fill="rgba(255,255,255,0.6)"/>
+          </g>
+        </svg>
+      </div>
+      <div class="map-filters">
+        <button class="mf-btn active" onclick="mfClick('All',this)">All</button>
+        <button class="mf-btn" onclick="mfClick('Academic',this)">Academic</button>
+        <button class="mf-btn" onclick="mfClick('Facilities',this)">Facilities</button>
+        <button class="mf-btn" onclick="mfClick('Labs',this)">Labs</button>
+        <button class="mf-btn" onclick="mfClick('Admin',this)">Admin</button>
+      </div>
+      <div class="map-info" id="mapInfo">
+        <h3>AUCE North Campus</h3>
+        <p>Tap any building to view details and directions.</p>
+      </div>
+    </div>
+    <div>
+      <div class="section-label">Key Landmarks</div>
+      <div class="landmark-grid">
+        <div class="lm-card" onclick="showBldg('admin')"><div class="lm-name">Admin Block</div><div class="lm-type">🏛️ Administration</div></div>
+        <div class="lm-card" onclick="showBldg('cse')"><div class="lm-name">CSE Block</div><div class="lm-type">💻 Academic</div></div>
+        <div class="lm-card" onclick="showBldg('library')"><div class="lm-name">Central Library</div><div class="lm-type">📚 Facility</div></div>
+        <div class="lm-card" onclick="showBldg('labs')"><div class="lm-name">Labs Complex</div><div class="lm-type">🔬 Research</div></div>
+        <div class="lm-card" onclick="showBldg('mech')"><div class="lm-name">Mech Block</div><div class="lm-type">⚙️ Academic</div></div>
+        <div class="lm-card" onclick="showBldg('audi')"><div class="lm-name">Auditorium</div><div class="lm-type">🎭 Events</div></div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer"><div class="footer-top"><div class="footer-logo-box"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><rect x="28" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="42" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="38" y="30" width="4" height="20" rx="1" fill="white"/></svg></div><div><h3>AU College of Engineering</h3><p>North Campus, Visakhapatnam – 530 003</p></div></div><div class="footer-copy">© 2025 Andhra University College of Engineering. All rights reserved.</div></footer>
+</div>
+
+<!-- =================== DIRECTORY PAGE =================== -->
+<div class="page" id="page-directory">
+  <div class="hero-blue">
+    <h2>Campus Directory</h2>
+    <p>Find buildings, departments, and essential campus locations</p>
+  </div>
+  <div class="content">
+    <div class="search-wrap">
+      <span class="search-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+      <input type="text" id="dirSearch" placeholder="Search buildings or departments..." oninput="filterDir()">
+    </div>
+    <div class="card" style="overflow:hidden;">
+      <div class="tabs">
+        <div class="tab active" id="tab-buildings" onclick="switchTab('buildings')">
+          <svg viewBox="0 0 24 24"><path d="M19 21V5C19 3.89543 18.1046 3 17 3H7C5.89543 3 5 3.89543 5 5V21M19 21H5M19 21H21M5 21H3M9 7H10M14 7H15M9 11H10M14 11H15M9 15H10M14 15H15" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Buildings (25)
+        </div>
+        <div class="tab" id="tab-departments" onclick="switchTab('departments')">
+          <svg viewBox="0 0 24 24"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Departments (25)
+        </div>
+      </div>
+      <div id="dir-buildings-list"></div>
+      <div id="dir-departments-list" style="display:none;"></div>
+    </div>
+  </div>
+  <footer class="footer"><div class="footer-top"><div class="footer-logo-box"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><rect x="28" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="42" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="38" y="30" width="4" height="20" rx="1" fill="white"/></svg></div><div><h3>AU College of Engineering</h3><p>North Campus, Visakhapatnam – 530 003</p></div></div><div class="footer-copy">© 2025 Andhra University College of Engineering. All rights reserved.</div></footer>
+</div>
+
+<!-- =================== DEPARTMENTS PAGE (standalone) =================== -->
+<div class="page" id="page-departments">
+  <div class="hero-blue">
+    <h2>Departments</h2>
+    <p>All 25 academic departments of AUCE North Campus</p>
+  </div>
+  <div class="content">
+    <div class="search-wrap">
+      <span class="search-ico"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></span>
+      <input type="text" id="deptSearch2" placeholder="Search departments..." oninput="filterDepts2()">
+    </div>
+    <div class="card" style="overflow:hidden;" id="deptStandaloneList"></div>
+  </div>
+  <footer class="footer"><div class="footer-top"><div class="footer-logo-box"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><rect x="28" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="42" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="38" y="30" width="4" height="20" rx="1" fill="white"/></svg></div><div><h3>AU College of Engineering</h3><p>North Campus, Visakhapatnam – 530 003</p></div></div><div class="footer-copy">© 2025 Andhra University College of Engineering. All rights reserved.</div></footer>
+</div>
+
+<!-- =================== QR PAGE =================== -->
+<div class="page" id="page-qr">
+  <div class="hero-blue">
+    <h2>QR Access</h2>
+    <p>Scan building QR codes to navigate and access building information instantly.</p>
+  </div>
+  <div class="content">
+    <button class="primary-btn" onclick="showToast('📷 QR Scanner activated!')">
+      <svg style="width:18px;height:18px;vertical-align:middle;margin-right:8px;stroke:white;fill:none;" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-width="1.8"/><path d="M14 14h3v3M14 20h7M20 14v7" stroke-width="1.8" stroke-linecap="round"/><rect x="5" y="5" width="3" height="3" fill="white" rx="0.5"/><rect x="16" y="5" width="3" height="3" fill="white" rx="0.5"/><rect x="5" y="16" width="3" height="3" fill="white" rx="0.5"/></svg>
+      Open QR Scanner
+    </button>
+    <div>
+      <div class="section-label">Building QR Codes</div>
+      <div class="qr-grid" id="qrGrid"></div>
+    </div>
+    <div>
+      <div class="section-label">How It Works</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="notice-card"><h4>📱 Scan at Entrance</h4><p>Point your camera at any building entrance QR code to instantly open the navigation portal.</p></div>
+        <div class="notice-card"><h4>🗺️ Auto-Navigate</h4><p>The 3D map highlights your scanned building and shows the internal floor plan and facilities.</p></div>
+        <div class="notice-card"><h4>ℹ️ Access Information</h4><p>View room directories, faculty offices, class schedules, and building-specific services.</p></div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer"><div class="footer-top"><div class="footer-logo-box"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><rect x="28" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="42" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="38" y="30" width="4" height="20" rx="1" fill="white"/></svg></div><div><h3>AU College of Engineering</h3><p>North Campus, Visakhapatnam – 530 003</p></div></div><div class="footer-copy">© 2025 Andhra University College of Engineering. All rights reserved.</div></footer>
+</div>
+
+<!-- =================== EVENTS PAGE =================== -->
+<div class="page" id="page-events">
+  <div class="hero-blue">
+    <h2>Campus Events</h2>
+    <p>Stay updated with upcoming academic, cultural and technical events.</p>
+  </div>
+  <div class="content">
+    <div style="display:flex;flex-direction:column;gap:12px;" id="eventsList"></div>
+  </div>
+  <footer class="footer"><div class="footer-top"><div class="footer-logo-box"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><rect x="28" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="42" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="38" y="30" width="4" height="20" rx="1" fill="white"/></svg></div><div><h3>AU College of Engineering</h3><p>North Campus, Visakhapatnam – 530 003</p></div></div><div class="footer-copy">© 2025 Andhra University College of Engineering. All rights reserved.</div></footer>
+</div>
+
+<!-- =================== SERVICES PAGE =================== -->
+<div class="page" id="page-services">
+  <div class="hero-blue">
+    <h2>Campus Services</h2>
+    <p>Access all campus facilities and services from one place.</p>
+  </div>
+  <div class="content">
+    <div class="svc-grid" id="svcGrid"></div>
+  </div>
+  <footer class="footer"><div class="footer-top"><div class="footer-logo-box"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><rect x="28" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="42" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="38" y="30" width="4" height="20" rx="1" fill="white"/></svg></div><div><h3>AU College of Engineering</h3><p>North Campus, Visakhapatnam – 530 003</p></div></div><div class="footer-copy">© 2025 Andhra University College of Engineering. All rights reserved.</div></footer>
+</div>
+
+<!-- =================== HELP PAGE =================== -->
+<div class="page" id="page-help">
+  <div class="hero-green">
+    <h2>
+      <svg style="width:28px;height:28px;stroke:white;fill:none;flex-shrink:0;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="1.8"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="white"/></svg>
+      Help &amp; Support
+    </h2>
+    <p>Get help navigating the campus portal and find answers to common questions</p>
+  </div>
+  <div class="content">
+    <div class="qs-guide">
+      <div class="qs-guide-title">Quick Start Guide</div>
+      <div class="qs-items">
+        <div class="qs-row" onclick="goPage('map')">
+          <div class="qs-ico ic-blue">
+            <svg viewBox="0 0 24 24" style="stroke:#3b82f6;"><path d="M9 20L3 17V4L9 7M9 20L15 17M9 20V7M15 17L21 20V7L15 4M15 17V4M9 7L15 4" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="qs-text"><h4>Campus Map</h4><p>Navigate campus in 3D</p></div>
+          <div style="margin-left:auto;color:var(--text-light)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
+        </div>
+        <div class="qs-row" onclick="goPage('directory')">
+          <div class="qs-ico ic-purple">
+            <svg viewBox="0 0 24 24" style="stroke:#7c3aed;"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke-width="1.8"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <div class="qs-text"><h4>Directory</h4><p>Find buildings &amp; departments</p></div>
+          <div style="margin-left:auto;color:var(--text-light)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
+        </div>
+        <div class="qs-row" onclick="goPage('qr')">
+          <div class="qs-ico ic-orange">
+            <svg viewBox="0 0 24 24" style="stroke:#f97316;"><rect x="3" y="3" width="7" height="7" rx="1" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-width="1.8"/><path d="M14 14h3v3M14 20h7M20 14v7" stroke-width="1.8" stroke-linecap="round"/><rect x="5" y="5" width="3" height="3" fill="#f97316" rx="0.5"/><rect x="16" y="5" width="3" height="3" fill="#f97316" rx="0.5"/><rect x="5" y="16" width="3" height="3" fill="#f97316" rx="0.5"/></svg>
+          </div>
+          <div class="qs-text"><h4>QR Access</h4><p>Generate building QR codes</p></div>
+          <div style="margin-left:auto;color:var(--text-light)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label">Emergency Contacts</div>
+      <div class="contacts-grid">
+        <div class="con-card"><div class="con-ico ic-rose" style="background:#ffe4e6;"><svg viewBox="0 0 24 24" style="stroke:#e11d48;"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.22 2 2 0 012.22.01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.16 6.16l1.07-1.06a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke-width="1.8"/></svg></div><h4>Campus Security</h4><p>24×7 helpline</p><a href="tel:08912844000">0891-2844000</a></div>
+        <div class="con-card"><div class="con-ico" style="background:#d1fae5;"><svg viewBox="0 0 24 24" style="stroke:#059669;" fill="none"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>Medical Centre</h4><p>Health centre</p><a href="tel:08912844100">0891-2844100</a></div>
+        <div class="con-card"><div class="con-ico ic-orange" style="background:#ffedd5;"><svg viewBox="0 0 24 24" style="stroke:#f97316;" fill="none"><path d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" stroke-width="1.8" stroke-linecap="round"/></svg></div><h4>Fire Emergency</h4><p>State fire brigade</p><a href="tel:101">101</a></div>
+        <div class="con-card"><div class="con-ico ic-blue" style="background:#dbeafe;"><svg viewBox="0 0 24 24" style="stroke:#3b82f6;" fill="none"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h4>Police</h4><p>Campus police</p><a href="tel:100">100</a></div>
+        <div class="con-card"><div class="con-ico ic-slate" style="background:#f1f5f9;"><svg viewBox="0 0 24 24" style="stroke:#475569;" fill="none"><path d="M4 6h16M4 12h16M4 18h7" stroke-width="1.8" stroke-linecap="round"/></svg></div><h4>Registrar</h4><p>Academic enquiries</p><a href="tel:08912844050">0891-2844050</a></div>
+        <div class="con-card"><div class="con-ico ic-teal" style="background:#ccfbf1;"><svg viewBox="0 0 24 24" style="stroke:#0d9488;" fill="none"><path d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 7.409A2.25 2.25 0 012.25 5.493V5.25" stroke-width="1.8" stroke-linecap="round"/></svg></div><h4>IT Help Desk</h4><p>Network support</p><a href="tel:08912844200">0891-2844200</a></div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label">Portal Features</div>
+      <div class="faq-card" id="faqList"></div>
+    </div>
+  </div>
+  <footer class="footer"><div class="footer-top"><div class="footer-logo-box"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><rect x="28" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="42" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="38" y="30" width="4" height="20" rx="1" fill="white"/></svg></div><div><h3>AU College of Engineering</h3><p>North Campus, Visakhapatnam – 530 003</p></div></div><div class="footer-links"><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">AUCE Website</a><a href="#">Grievance Portal</a></div><div class="footer-copy">© 2025 Andhra University College of Engineering. All rights reserved. | Estd. 1946</div></footer>
+</div>
+
+<!-- =================== PROFILE PAGE =================== -->
+<div class="page" id="page-profile">
+  <div class="profile-hero">
+    <div class="profile-ava-wrap">
+      <div class="profile-ava">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke-width="1.5"/></svg>
+      </div>
+      <div class="profile-cam" onclick="showToast('Change photo coming soon')">
+        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke-width="1.5"/><circle cx="12" cy="13" r="4" stroke-width="1.5"/></svg>
+      </div>
+    </div>
+    <div class="profile-names">
+      <h2>Student Name</h2>
+      <p>AU21XXXXX</p>
+      <div class="profile-badges">
+        <span class="p-badge">Computer Science &amp; Engineering</span>
+        <span class="p-badge">3rd Year</span>
+      </div>
+    </div>
+    <div class="profile-edit" onclick="showToast('Edit profile coming soon')">
+      <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke-width="1.8" stroke-linecap="round"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke-width="1.8"/></svg>
+    </div>
+  </div>
+  <div class="content">
+    <div class="pinfo-card">
+      <div class="pinfo-title">Personal Information</div>
+      <div class="pinfo-grid">
+        <div class="pinfo-cell">
+          <div class="pinfo-ico-row"><svg viewBox="0 0 24 24" style="stroke:#3b82f6;width:16px;height:16px;" fill="none"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-width="1.8" stroke-linecap="round"/></svg><div class="pinfo-lbl">Email</div></div>
+          <div class="pinfo-val" style="font-size:0.74rem;">student@andhrauniversity.edu.in</div>
+        </div>
+        <div class="pinfo-cell">
+          <div class="pinfo-ico-row"><svg viewBox="0 0 24 24" style="stroke:#10b981;width:16px;height:16px;" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.22 1.22 2 2 0 012.22.01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.16 6.16l1.07-1.06a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke-width="1.8"/></svg><div class="pinfo-lbl">Phone</div></div>
+          <div class="pinfo-val">+91-XXXXXXXXXX</div>
+        </div>
+        <div class="pinfo-cell">
+          <div class="pinfo-ico-row"><svg viewBox="0 0 24 24" style="stroke:#7c3aed;width:16px;height:16px;" fill="none"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="pinfo-lbl">Roll Number</div></div>
+          <div class="pinfo-val">21K81A05XX</div>
+        </div>
+        <div class="pinfo-cell">
+          <div class="pinfo-ico-row"><svg viewBox="0 0 24 24" style="stroke:#f97316;width:16px;height:16px;" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke-width="1.8"/><path d="M16 2v4M8 2v4M3 10h18" stroke-width="1.8" stroke-linecap="round"/></svg><div class="pinfo-lbl">Admission Year</div></div>
+          <div class="pinfo-val">2021</div>
+        </div>
+        <div class="pinfo-cell">
+          <div class="pinfo-ico-row"><svg viewBox="0 0 24 24" style="stroke:#0891b2;width:16px;height:16px;" fill="none"><path d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" stroke-width="1.8" stroke-linecap="round"/></svg><div class="pinfo-lbl">Department</div></div>
+          <div class="pinfo-val" style="font-size:0.76rem;">Computer Science &amp; Engineering</div>
+        </div>
+        <div class="pinfo-cell">
+          <div class="pinfo-ico-row"><svg viewBox="0 0 24 24" style="stroke:#d97706;width:16px;height:16px;" fill="none"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" stroke-width="1.8"/></svg><div class="pinfo-lbl">CGPA</div></div>
+          <div class="pinfo-val">8.74 / 10.0</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="section-label">Quick Actions</div>
+      <div class="paction-grid">
+        <div class="paction" onclick="showToast('Opening Digital ID...')"><div class="paction-ico ic-blue"><svg viewBox="0 0 24 24" style="stroke:#3b82f6;" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke-width="1.8"/><path d="M16 10a2 2 0 11-4 0 2 2 0 014 0zM6 9h4M6 13h2" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="paction-text">Digital ID Card</div></div>
+        <div class="paction" onclick="showToast('Opening Timetable...')"><div class="paction-ico ic-amber"><svg viewBox="0 0 24 24" style="stroke:#d97706;" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke-width="1.8"/><path d="M16 2v4M8 2v4M3 10h18" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="paction-text">My Timetable</div></div>
+        <div class="paction" onclick="showToast('Opening Results...')"><div class="paction-ico ic-green"><svg viewBox="0 0 24 24" style="stroke:#059669;" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="paction-text">Exam Results</div></div>
+        <div class="paction" onclick="showToast('Opening Fee Details...')"><div class="paction-ico ic-purple"><svg viewBox="0 0 24 24" style="stroke:#7c3aed;" fill="none"><rect x="1" y="4" width="22" height="16" rx="2" stroke-width="1.8"/><path d="M1 10h22" stroke-width="1.8"/></svg></div><div class="paction-text">Fee Details</div></div>
+        <div class="paction" onclick="showToast('Opening Attendance...')"><div class="paction-ico ic-teal"><svg viewBox="0 0 24 24" style="stroke:#0d9488;" fill="none"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="paction-text">Attendance</div></div>
+        <div class="paction" onclick="showToast('Logging out...')"><div class="paction-ico ic-rose" style="background:#ffe4e6;"><svg viewBox="0 0 24 24" style="stroke:#e11d48;" fill="none"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="paction-text">Log Out</div></div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer"><div class="footer-top"><div class="footer-logo-box"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="28" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><rect x="28" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="42" y="32" width="10" height="16" rx="2" fill="rgba(255,255,255,0.8)"/><rect x="38" y="30" width="4" height="20" rx="1" fill="white"/></svg></div><div><h3>AU College of Engineering</h3><p>North Campus, Visakhapatnam – 530 003</p></div></div><div class="footer-copy">© 2025 Andhra University College of Engineering. All rights reserved.</div></footer>
+</div>
+
+<!-- ── BOTTOM NAV ── -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="goPage('home')">
+    <svg viewBox="0 0 24 24"><path d="M3 12L5 10M5 10L12 3L19 10M5 10V20C5 20.5523 5.44772 21 6 21H9M19 10L21 12M19 10V20C19 20.5523 18.5523 21 18 21H15M9 21C9 21 9 15 12 15C15 15 15 21 15 21M9 21H15" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Home</span>
+  </button>
+  <button class="nav-btn" id="nav-directory" onclick="goPage('directory')">
+    <svg viewBox="0 0 24 24"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>Directory</span>
+  </button>
+  <button class="nav-btn" id="nav-help" onclick="goPage('help')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="1.8"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></svg>
+    <span>Help</span>
+  </button>
+  <button class="nav-btn" id="nav-profile" onclick="goPage('profile')">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="7" r="4" stroke-width="1.8"/></svg>
+    <span>Profile</span>
+  </button>
+</nav>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalBg(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <button class="modal-close-btn" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ──
+const departments = [
+  {name:"Civil Engineering",abbr:"CE",hod:"Prof. K. Srinivasa Rao",students:240,block:"Block A, G+1F",phone:"0891-2844301",email:"ce@auce.ac.in",labs:["Structures Lab","Geo-tech Lab","Hydraulics Lab"],desc:"Established in 1946. Specialises in structural, environmental, and transportation engineering. Offers B.Tech, M.Tech and PhD."},
+  {name:"Mechanical Engineering",abbr:"ME",hod:"Prof. P. Venkata Rao",students:240,block:"Block B, Ground Floor",phone:"0891-2844302",email:"me@auce.ac.in",labs:["Machine Tools Lab","Fluid Mechanics Lab","Thermal Lab"],desc:"Covers thermodynamics, manufacturing, design and robotics. Strong industry ties with BHEL, VSP, and DRDO."},
+  {name:"Electrical & Electronics Engineering",abbr:"EEE",hod:"Prof. M. Ramesh",students:180,block:"Block C, 1st Floor",phone:"0891-2844303",email:"eee@auce.ac.in",labs:["Power Systems Lab","Control Systems Lab","Machines Lab"],desc:"Deals with power generation, electric drives, smart grids and renewable energy systems."},
+  {name:"Electronics & Communication Engineering",abbr:"ECE",hod:"Prof. V. Suresh",students:240,block:"Block C, 2nd Floor",phone:"0891-2844304",email:"ece@auce.ac.in",labs:["DSP Lab","VLSI Lab","Communication Lab"],desc:"Focuses on VLSI design, embedded systems, signal processing, and wireless communication."},
+  {name:"Computer Science & Engineering",abbr:"CSE",hod:"Prof. T. Lakshmi Devi",students:240,block:"CSE Block, All Floors",phone:"0891-2844305",email:"cse@auce.ac.in",labs:["Networks Lab","AI & ML Lab","Software Lab"],desc:"Covers algorithms, AI, machine learning, cloud computing, and cybersecurity. State-of-the-art computing facilities."},
+  {name:"Information Technology",abbr:"IT",hod:"Prof. A. Krishna Rao",students:120,block:"CSE Block, 3rd Floor",phone:"0891-2844306",email:"it@auce.ac.in",labs:["Database Lab","Web Tech Lab","IoT Lab"],desc:"Focuses on software development, web technologies, database management, and IoT applications."},
+  {name:"Chemical Engineering",abbr:"ChE",hod:"Prof. S. Padmavathi",students:60,block:"Block D, Ground Floor",phone:"0891-2844307",email:"che@auce.ac.in",labs:["Process Control Lab","Mass Transfer Lab","Reaction Lab"],desc:"Covers process engineering, petrochemicals, and environmental remediation."},
+  {name:"Metallurgical Engineering",abbr:"Met",hod:"Prof. R. Babu",students:60,block:"Block D, 1st Floor",phone:"0891-2844308",email:"met@auce.ac.in",labs:["Material Testing Lab","Heat Treatment Lab"],desc:"Deals with metals, alloys, ceramics, and advanced materials processing."},
+  {name:"Mining Engineering",abbr:"Min",hod:"Prof. G. Narayana",students:60,block:"Block E, Ground Floor",phone:"0891-2844309",email:"min@auce.ac.in",labs:["Rock Mechanics Lab","Mine Simulation Lab"],desc:"Focuses on surface and underground mining, mineral processing, and mine safety."},
+  {name:"Architecture",abbr:"Arch",hod:"Prof. L. Prasad",students:40,block:"Architecture Block",phone:"0891-2844310",email:"arch@auce.ac.in",labs:["Design Studio","Model Making Lab","CAD Lab"],desc:"Offers B.Arch programme with focus on sustainable design, urban planning, and heritage conservation."},
+  {name:"Aerospace Engineering",abbr:"AE",hod:"Prof. K. Naidu",students:60,block:"Block F, Ground Floor",phone:"0891-2844311",email:"ae@auce.ac.in",labs:["Aerodynamics Lab","Propulsion Lab","Flight Simulation"],desc:"Covers aerodynamics, aircraft structures, propulsion, and aerospace systems design."},
+  {name:"Bio-Technology",abbr:"BT",hod:"Prof. N. Sujatha",students:60,block:"Block F, 1st Floor",phone:"0891-2844312",email:"bt@auce.ac.in",labs:["Microbiology Lab","Genetic Engineering Lab"],desc:"Interdisciplinary department covering biological sciences, biochemical processes, and bio-informatics."},
+  {name:"Environmental Science",abbr:"ES",hod:"Prof. C. Hanumantha",students:40,block:"Block G, Ground Floor",phone:"0891-2844313",email:"es@auce.ac.in",labs:["Air Quality Lab","Remote Sensing Lab"],desc:"Environmental monitoring, waste management, pollution control, and sustainability."},
+  {name:"Ocean Engineering",abbr:"OE",hod:"Prof. D. Rao",students:40,block:"Block G, 1st Floor",phone:"0891-2844314",email:"oe@auce.ac.in",labs:["Wave Flume Lab","Coastal Structures Lab"],desc:"Offshore structures, coastal engineering, hydrodynamics, and marine operations."},
+  {name:"Petroleum Engineering",abbr:"PE",hod:"Prof. J. Murthy",students:40,block:"Block H, Ground Floor",phone:"0891-2844315",email:"pe@auce.ac.in",labs:["Reservoir Engineering Lab","Drilling Lab"],desc:"Oil and gas exploration, reservoir management, and drilling technologies."},
+  {name:"Instrumentation Engineering",abbr:"IE",hod:"Prof. F. Reddy",students:60,block:"Block H, 1st Floor",phone:"0891-2844316",email:"ie@auce.ac.in",labs:["Process Instrumentation Lab","Sensors Lab"],desc:"Measurement, control, and automation systems used in industrial applications."},
+  {name:"Mathematics",abbr:"Math",hod:"Prof. B. Viswanath",students:180,block:"Block I, Ground Floor",phone:"0891-2844317",email:"math@auce.ac.in",labs:["Computing Lab"],desc:"Service department offering foundational and advanced mathematics to all engineering programmes."},
+  {name:"Physics",abbr:"Phy",hod:"Prof. U. Rani",students:180,block:"Block I, 1st Floor",phone:"0891-2844318",email:"phy@auce.ac.in",labs:["Optics Lab","Material Science Lab"],desc:"Offers M.Sc Physics and supports all engineering departments with applied physics research."},
+  {name:"Chemistry",abbr:"Chem",hod:"Prof. O. Sharma",students:120,block:"Block I, 2nd Floor",phone:"0891-2844319",email:"chem@auce.ac.in",labs:["Analytical Chemistry Lab","Organic Chemistry Lab"],desc:"Supports engineering programmes; offers M.Sc Chemistry with polymer and material chemistry research."},
+  {name:"Humanities & Social Sciences",abbr:"HSS",hod:"Prof. W. Krishnamurti",students:100,block:"Block J, Ground Floor",phone:"0891-2844320",email:"hss@auce.ac.in",labs:["Language Lab"],desc:"Offers English, Economics, and Social Science courses to all undergraduate students."},
+  {name:"Management Studies",abbr:"MBA",hod:"Prof. X. Lakshmana",students:60,block:"Block J, 1st Floor",phone:"0891-2844321",email:"mba@auce.ac.in",labs:["Business Computing Lab"],desc:"Offers MBA with specialisations in Finance, Marketing, HR, and Operations."},
+  {name:"Industrial Engineering",abbr:"IndE",hod:"Prof. Y. Venkatesh",students:60,block:"Block K, Ground Floor",phone:"0891-2844322",email:"inde@auce.ac.in",labs:["Ergonomics Lab","Operations Research Lab"],desc:"Production planning, quality management, supply chain, and lean manufacturing."},
+  {name:"Electronics & Instrumentation",abbr:"EI",hod:"Prof. Z. Prasad",students:60,block:"Block K, 1st Floor",phone:"0891-2844323",email:"ei@auce.ac.in",labs:["PLC & SCADA Lab","Biomedical Lab"],desc:"Combines electronics and instrumentation for industrial automation and biomedical applications."},
+  {name:"Structural Engineering (PG)",abbr:"SE",hod:"Prof. H. Murthy",students:30,block:"Block A, 2nd Floor",phone:"0891-2844324",email:"se@auce.ac.in",labs:["Advanced Structures Lab"],desc:"Post-graduate department specialising in structural analysis, earthquake engineering, and FEM."},
+  {name:"Energy Systems Engineering",abbr:"EnSE",hod:"Prof. Q. Balasubramaniam",students:40,block:"Block L, Ground Floor",phone:"0891-2844325",email:"ense@auce.ac.in",labs:["Renewable Energy Lab","Solar PV Lab"],desc:"Solar, wind, and hybrid energy systems, energy storage, and smart grid integration."}
+];
+
+const buildings = [
+  {name:"Administrative Block",type:"Administration",floor:"G+2",block:"Central Campus"},
+  {name:"CSE & IT Block",type:"Academic",floor:"G+3",block:"East Wing"},
+  {name:"Mechanical Engineering Block",type:"Academic",floor:"G+2",block:"West Wing"},
+  {name:"EEE/ECE Block (Block C)",type:"Academic",floor:"G+2",block:"North Wing"},
+  {name:"Chemical & Metallurgical Block (Block D)",type:"Academic",floor:"G+1",block:"South Wing"},
+  {name:"Mining Engineering Block (Block E)",type:"Academic",floor:"G+1",block:"South Campus"},
+  {name:"Architecture Block",type:"Academic",floor:"G+2",block:"Design Zone"},
+  {name:"Aerospace & Bio-Tech Block (Block F)",type:"Academic",floor:"G+1",block:"Research Wing"},
+  {name:"Environmental & Ocean Eng (Block G)",type:"Academic",floor:"G+1",block:"North East"},
+  {name:"Petroleum & Instrumentation (Block H)",type:"Academic",floor:"G+1",block:"East Campus"},
+  {name:"Science Departments Block (Block I)",type:"Academic",floor:"G+2",block:"Central"},
+  {name:"Humanities & Management Block (Block J)",type:"Academic",floor:"G+1",block:"Main Road"},
+  {name:"Industrial & EI Engineering (Block K)",type:"Academic",floor:"G+1",block:"North Campus"},
+  {name:"Energy Systems Block (Block L)",type:"Research",floor:"G+1",block:"Research Zone"},
+  {name:"Central Library",type:"Facility",floor:"G+1",block:"Central Zone"},
+  {name:"Research & Labs Complex",type:"Research",floor:"G+2",block:"North East"},
+  {name:"Main Auditorium",type:"Events",floor:"Ground",block:"Central South"},
+  {name:"Seminar Hall A",type:"Events",floor:"Ground",block:"Admin Block"},
+  {name:"Medical Centre",type:"Facility",floor:"Ground",block:"Near Main Gate"},
+  {name:"SBI Bank & ATM",type:"Facility",floor:"Ground",block:"Commerce Zone"},
+  {name:"Campus Post Office",type:"Facility",floor:"Ground",block:"Central"},
+  {name:"Boys Hostel Complex",type:"Residential",floor:"G+3",block:"North Residential"},
+  {name:"Girls Hostel Complex",type:"Residential",floor:"G+3",block:"South Residential"},
+  {name:"Sports Complex",type:"Sports",floor:"Ground",block:"South Campus"},
+  {name:"Central Canteen",type:"Facility",floor:"Ground",block:"Central Campus"}
+];
+
+const qrBuildings = [
+  {name:"Admin Block",loc:"Central, North End",code:"AUCE-ADM-001"},
+  {name:"CSE Block",loc:"East Wing",code:"AUCE-CSE-002"},
+  {name:"Mech Block",loc:"West Wing",code:"AUCE-MEC-003"},
+  {name:"EEE/ECE Block",loc:"Block C",code:"AUCE-EEC-004"},
+  {name:"Central Library",loc:"Central Zone",code:"AUCE-LIB-005"},
+  {name:"Labs Complex",loc:"Research Zone",code:"AUCE-LAB-006"},
+  {name:"Auditorium",loc:"Central South",code:"AUCE-AUD-007"},
+  {name:"Sports Complex",loc:"South Campus",code:"AUCE-SPT-008"}
+];
+
+const events = [
+  {day:"12",mon:"APR",title:"TECHNOVA 2025 — National Technical Fest",loc:"Main Auditorium & Open Ground",tag:"Technical",desc:"Annual national-level technical festival with paper presentations, hackathon, and robotics competitions."},
+  {day:"18",mon:"APR",title:"Semester Registration Deadline",loc:"Academic Section / Online Portal",tag:"Academic",desc:"Last date for Odd Semester 2025–26 registration. Late fee applicable after this date."},
+  {day:"22",mon:"APR",title:"AUCE Alumni Meet 2025",loc:"Dr. B.R. Ambedkar Hall",tag:"Alumni",desc:"Annual alumni gathering — cultural programme and dinner included."},
+  {day:"05",mon:"MAY",title:"Placement Orientation — Final Years",loc:"Seminar Hall, Admin Block",tag:"Placement",desc:"Pre-placement training and company briefing for B.Tech 4th year and M.Tech students."},
+  {day:"10",mon:"MAY",title:"Workshop on AI & Deep Learning",loc:"CSE Department, 3rd Floor",tag:"Workshop",desc:"Two-day hands-on workshop by IIT Hyderabad faculty. Limited seats — register online."},
+  {day:"15",mon:"MAY",title:"Annual Sports Day",loc:"AUCE Sports Ground",tag:"Sports",desc:"Inter-department sports championship — cricket, volleyball, athletics, and chess."}
+];
+
+const services = [
+  {icon:"ic-blue","svg":`<svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.8"><path d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" stroke-linecap="round"/></svg>`,name:"Campus Wi-Fi",desc:"High-speed internet"},
+  {icon:"ic-orange","svg":`<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.8"><path d="M12 3v1m0 16v1M4.22 4.22l.707.707M18.364 18.364l.707.707M1 12h1m20 0h1M4.22 19.78l.707-.707M18.364 5.636l.707-.707" stroke-linecap="round"/><circle cx="12" cy="12" r="4"/></svg>`,name:"Canteen",desc:"3 canteens on campus"},
+  {icon:"ic-green","svg":`<svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.8"><path d="M8 6v6m0 0v6m0-6h8M8 12l2-2M16 6v6m0 0v6" stroke-linecap="round" stroke-linejoin="round"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>`,name:"Transport",desc:"Bus routes to city"},
+  {icon:"ic-rose","svg":`<svg viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,name:"Medical Centre",desc:"24×7 health centre"},
+  {icon:"ic-teal","svg":`<svg viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="1.8"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20" stroke-linecap="round"/></svg>`,name:"Bank & ATM",desc:"SBI on campus"},
+  {icon:"ic-purple","svg":`<svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round"/></svg>`,name:"Post Office",desc:"Official mail services"},
+  {icon:"ic-amber","svg":`<svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.8"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,name:"Hostels",desc:"Boys & Girls hostels"},
+  {icon:"ic-indigo","svg":`<svg viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="1.8"><path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" stroke-linecap="round" stroke-linejoin="round"/></svg>`,name:"Sports",desc:"Cricket, football, gym"},
+  {icon:"ic-slate","svg":`<svg viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="1.8"><path d="M17 17h2a2 2 0 000-4h-.09A7.001 7.001 0 007 11.1V3L3 7l4 4V7.1a5 5 0 019.9.9H17a4 4 0 010 8h-2m-4 0v6m0 0l-2-2m2 2l2-2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,name:"Print & Xerox",desc:"Near library"},
+  {icon:"ic-lime","svg":`<svg viewBox="0 0 24 24" fill="none" stroke="#65a30d" stroke-width="1.8"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" stroke-linecap="round" stroke-linejoin="round"/></svg>`,name:"Research Lab",desc:"Central instrumentation"},
+  {icon:"ic-cyan","svg":`<svg viewBox="0 0 24 24" fill="none" stroke="#0891b2" stroke-width="1.8"><path d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 7.409A2.25 2.25 0 012.25 5.493V5.25" stroke-linecap="round"/></svg>`,name:"Online Portal",desc:"Fee, results, academics"},
+  {icon:"ic-purple","svg":`<svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" stroke-linecap="round" stroke-linejoin="round"/></svg>`,name:"Central Library",desc:"1 lakh+ books & e-journals"}
+];
+
+const faqs = [
+  {q:"How do I access the 3D campus map?",a:"Tap 'Home' then 'Campus Map'. The interactive 3D map loads automatically. Tap any building to view details."},
+  {q:"How does QR building access work?",a:"Scan any building entrance QR code using the portal's scanner or your phone camera to instantly navigate to that building and view its directory."},
+  {q:"How do I find a department?",a:"Go to 'Directory' and switch to the 'Departments' tab, or use the search bar to filter by name or abbreviation."},
+  {q:"Where is the medical centre?",a:"Near the Main Gate, opposite the Admin Block. Open 24×7. Contact: 0891-2844100."},
+  {q:"How do I connect to campus Wi-Fi?",a:"Connect to 'AUCE-Student' and authenticate using your roll number and portal password. For issues call IT Help Desk."},
+  {q:"Where do I pay semester fees?",a:"Pay online via Profile > Fee Details, or in-person at Accounts Section, Admin Block, Ground Floor."},
+  {q:"What are library working hours?",a:"Monday–Saturday, 8 AM to 8 PM. Digital resources accessible 24×7 with student credentials."},
+  {q:"How do I submit a grievance?",a:"Use the Student Grievance Portal (Help > Quick Access) or visit Dean of Students Office, Admin Block, Room 105."}
+];
+
+const bldgInfo = {
+  admin:{t:"Administration Block",body:"The central hub of AUCE North Campus — houses the Principal's Office, Dean of Students, Academic Section, Accounts Office, and Exam Branch.<br><br><b>📍 Location:</b> Central Campus, North Entry<br><b>🕐 Hours:</b> Mon–Sat, 9 AM – 5 PM<br><b>📞 Phone:</b> 0891-2844050",tags:["Principal Office","Academic Section","Exam Branch","Accounts"]},
+  cse:{t:"CSE Block",body:"Home to CSE and IT departments. Features AI labs, networking labs, and computing clusters.<br><br><b>📍 Location:</b> East Wing<br><b>🕐 Hours:</b> Mon–Sat, 8 AM – 6 PM<br><b>📞 Phone:</b> 0891-2844305",tags:["AI Lab","Networks Lab","Software Lab"]},
+  mech:{t:"Mechanical Engineering Block",body:"Houses Mechanical and Industrial Engineering. Equipped with advanced manufacturing, thermal, and robotics labs.<br><br><b>📍 Location:</b> West Wing, Block B<br><b>🕐 Hours:</b> Mon–Sat, 8 AM – 6 PM<br><b>📞 Phone:</b> 0891-2844302",tags:["Machine Tools Lab","Thermal Lab","Robotics"]},
+  library:{t:"Central Library",body:"Over 1 lakh books, journals, and digital resources. Fully air-conditioned reading hall with 400 seats.<br><br><b>📍 Location:</b> Central Zone<br><b>🕐 Hours:</b> Mon–Sat, 8 AM – 8 PM<br><b>📞 Phone:</b> 0891-2844400",tags:["1L+ Books","E-Journals","400 Seats"]},
+  labs:{t:"Research & Labs Complex",body:"Advanced instrumentation and inter-disciplinary project spaces shared across departments.<br><br><b>📍 Location:</b> North East, Research Zone<br><b>🕐 Hours:</b> Mon–Sat, 8 AM – 7 PM<br><b>📞 Phone:</b> 0891-2844500",tags:["Central Research","Material Testing"]},
+  audi:{t:"Main Auditorium",body:"Primary venue for convocations, seminars, cultural events, and guest lectures. Capacity: 1200 seats.<br><br><b>📍 Location:</b> Central South, Near Gate 2<br><b>🕐 Hours:</b> By appointment<br><b>📞 Phone:</b> 0891-2844055",tags:["1200 Seats","Full AV Setup","AC Hall"]}
+};
+
+// ── ACTIVE TAB STATE ──
+let activeDir = 'buildings';
+
+// ── INIT ──
+function init() {
+  renderBuildingsList();
+  renderDeptsList();
+  renderStandaloneDepts();
+  renderQR();
+  renderEvents();
+  renderServices();
+  renderFAQs();
+}
+
+// ── NAVIGATION ──
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const nb = document.getElementById('nav-' + id);
+  if (nb) nb.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ── DIRECTORY TABS ──
+function switchTab(tab) {
+  activeDir = tab;
+  document.getElementById('tab-buildings').classList.toggle('active', tab === 'buildings');
+  document.getElementById('tab-departments').classList.toggle('active', tab === 'departments');
+  document.getElementById('dir-buildings-list').style.display = tab === 'buildings' ? '' : 'none';
+  document.getElementById('dir-departments-list').style.display = tab === 'departments' ? '' : 'none';
+  document.getElementById('dirSearch').value = '';
+  filterDir();
+}
+
+function renderBuildingsList(filter = '') {
+  const list = document.getElementById('dir-buildings-list');
+  const filtered = buildings.filter(b => b.name.toLowerCase().includes(filter) || b.type.toLowerCase().includes(filter));
+  list.innerHTML = filtered.map((b, i) => `
+    <div class="dir-item" onclick="showBldgModal(${i})">
+      <div class="dir-ava">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 21V5C19 3.89543 18.1046 3 17 3H7C5.89543 3 5 3.89543 5 5V21M19 21H5M9 7H10M14 7H15M9 11H10M14 11H15M9 15H10M14 15H15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </div>
+      <div class="dir-info"><h4>${b.name}</h4><p>${b.type} · ${b.block} · ${b.floor}</p></div>
+      <div class="dir-chevron"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-width="2" stroke-linecap="round"/></svg></div>
+    </div>`).join('');
+}
+
+function renderDeptsList(filter = '') {
+  const list = document.getElementById('dir-departments-list');
+  const filtered = departments.filter(d => d.name.toLowerCase().includes(filter) || d.abbr.toLowerCase().includes(filter));
+  list.innerHTML = filtered.map((d, i) => `
+    <div class="dir-item" onclick="toggleDirDept(${i})">
+      <div class="dir-ava" style="background:#ede9fe;">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="stroke:#7c3aed;"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0118 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="dir-info"><h4>${d.name}</h4><p>${d.abbr} · ${d.block}</p></div>
+      <div class="dir-chevron" id="dchev-dir-${i}"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-width="2" stroke-linecap="round"/></svg></div>
+    </div>
+    <div class="dept-detail" id="ddir-${i}">
+      <p>${d.desc}</p>
+      <p><b>👨‍🏫 HoD:</b> ${d.hod} &nbsp;|&nbsp; <b>👥 Students:</b> ${d.students}</p>
+      <p><b>📞</b> ${d.phone} &nbsp;|&nbsp; <b>📧</b> ${d.email}</p>
+      <div class="drow">${d.labs.map(l=>`<span class="dtag">${l}</span>`).join('')}</div>
+    </div>`).join('');
+}
+
+function toggleDirDept(i) {
+  const el = document.getElementById('ddir-' + i);
+  el.classList.toggle('open');
+}
+
+function renderStandaloneDepts(filter = '') {
+  const el = document.getElementById('deptStandaloneList');
+  const filtered = departments.filter(d => d.name.toLowerCase().includes(filter) || d.abbr.toLowerCase().includes(filter));
+  el.innerHTML = filtered.map((d, i) => `
+    <div class="dir-item" onclick="toggleSaDept(${i})">
+      <div class="dir-ava" style="background:#ede9fe;">
+        <svg viewBox="0 0 24 24" fill="none" style="stroke:#7c3aed;"><path d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0118 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="dir-info"><h4>${d.name}</h4><p>${d.abbr} · ${d.block}</p></div>
+      <div class="dir-chevron"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-width="2" stroke-linecap="round"/></svg></div>
+    </div>
+    <div class="dept-detail" id="dsa-${i}">
+      <p>${d.desc}</p>
+      <p><b>👨‍🏫 HoD:</b> ${d.hod} &nbsp;|&nbsp; <b>👥 Students:</b> ${d.students}</p>
+      <p><b>📞</b> ${d.phone} &nbsp;|&nbsp; <b>📧</b> ${d.email}</p>
+      <div class="drow">${d.labs.map(l=>`<span class="dtag">${l}</span>`).join('')}</div>
+    </div>`).join('');
+}
+
+function toggleSaDept(i) {
+  document.getElementById('dsa-' + i).classList.toggle('open');
+}
+
+function filterDir() {
+  const q = document.getElementById('dirSearch').value.toLowerCase();
+  if (activeDir === 'buildings') renderBuildingsList(q);
+  else renderDeptsList(q);
+}
+
+function filterDepts2() {
+  const q = document.getElementById('deptSearch2').value.toLowerCase();
+  renderStandaloneDepts(q);
+}
+
+function showBldgModal(i) {
+  const b = buildings[i];
+  document.getElementById('modalTitle').textContent = b.name;
+  document.getElementById('modalBody').innerHTML = `<p><b>📍 Location:</b> ${b.block}</p><p><b>🏢 Type:</b> ${b.type}</p><p><b>🏗️ Floors:</b> ${b.floor}</p>`;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+// ── QR ──
+function genQR(code) {
+  const h = [...code].reduce((a, c) => (a + c.charCodeAt(0)) * 31, 1);
+  let cells = '';
+  for (let r = 0; r < 7; r++) for (let c = 0; c < 7; c++) {
+    if ((r < 3 && c < 3) || (r < 3 && c > 3) || (r > 3 && c < 3)) continue;
+    const on = ((h * (r * 7 + c + 1)) % 11) < 5;
+    if (on) cells += `<rect x="${c*12+6}" y="${r*12+6}" width="11" height="11" fill="#111" rx="1"/>`;
+  }
+  const cm = (x, y) => `<rect x="${x}" y="${y}" width="26" height="26" fill="none" stroke="#111" stroke-width="2.5" rx="2"/><rect x="${x+6}" y="${y+6}" width="14" height="14" fill="#111" rx="1"/>`;
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="white"/>${cells}${cm(6,6)}${cm(68,6)}${cm(6,68)}</svg>`;
+}
+
+function renderQR() {
+  document.getElementById('qrGrid').innerHTML = qrBuildings.map(b => `
+    <div class="qr-card" onclick="showToast('${b.code}')">
+      <div class="qr-box">${genQR(b.code)}</div>
+      <div class="qr-name">${b.name}</div>
+      <div class="qr-loc">📍 ${b.loc}</div>
+    </div>`).join('');
+}
+
+// ── EVENTS ──
+function renderEvents() {
+  document.getElementById('eventsList').innerHTML = events.map(e => `
+    <div class="event-item">
+      <div class="ev-date-box"><div class="ev-day">${e.day}</div><div class="ev-mon">${e.mon}</div></div>
+      <div class="ev-info"><h4>${e.title}</h4><p>📍 ${e.loc}</p><p style="margin-top:4px">${e.desc}</p><span class="ev-tag">${e.tag}</span></div>
+    </div>`).join('');
+}
+
+// ── SERVICES ──
+function renderServices() {
+  document.getElementById('svcGrid').innerHTML = services.map(s => `
+    <div class="svc-card" onclick="showToast('Opening ${s.name}...')">
+      <div class="qa-icon-wrap ${s.icon}">${s.svg}</div>
+      <div class="svc-name">${s.name}</div>
+      <div class="svc-desc">${s.desc}</div>
+    </div>`).join('');
+}
+
+// ── FAQs ──
+function renderFAQs() {
+  const icon = `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="1.8"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></svg>`;
+  document.getElementById('faqList').innerHTML =
+    `<div class="faq-title">${icon} Frequently Asked Questions</div>` +
+    faqs.map((f, i) => `
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFAQ(${i})">${f.q}<span class="faq-arr" id="fa${i}"><svg viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round"/></svg></span></div>
+        <div class="faq-a" id="faq${i}">${f.a}</div>
+      </div>`).join('');
+}
+
+function toggleFAQ(i) {
+  const a = document.getElementById('faq' + i);
+  const ar = document.getElementById('fa' + i);
+  a.classList.toggle('open');
+  ar.style.transform = a.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+
+// ── MAP ──
+function showBldg(id) {
+  const info = bldgInfo[id];
+  if (!info) return;
+  document.getElementById('mapInfo').innerHTML = `<h3>${info.t}</h3><p style="margin-top:4px">${info.body}</p><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">${info.tags.map(t=>`<span class="dtag">${t}</span>`).join('')}</div>`;
+  showToast('📍 ' + info.t);
+}
+
+function mfClick(label, btn) {
+  document.querySelectorAll('.mf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  showToast('Showing: ' + label);
+}
+
+// ── MODAL ──
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+function closeModalBg(e) { if (e.target.id === 'modalOverlay') closeModal(); }
+
+// ── TOAST ──
+let toastT;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+init();
+</script>
+</body>
+</html>
