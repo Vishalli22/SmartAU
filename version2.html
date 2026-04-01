@@ -73,7 +73,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 /* CENTER: Logo + University name */
 .topnav-brand{display:flex;align-items:center;gap:14px;flex:1;}
 .brand-emblem{width:46px;height:46px;border-radius:50%;border:2px solid var(--blue-m);background:var(--blue-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
-.brand-emblem svg{width:38px;height:38px;}
+.brand-emblem img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+}
 .brand-text h1{font-family:'Sora',sans-serif;font-size:1rem;font-weight:700;color:var(--text);line-height:1.2;}
 .brand-text p{font-size:.72rem;color:var(--text-s);margin-top:1px;}
 
@@ -465,7 +469,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   <!-- CENTER: Brand -->
   <div class="topnav-brand">
     <div class="brand-emblem">
-      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <img src="C:\Users\User\Downloads\AUCE-Visakhapatnam-Logo.png" alt="AUCE Logo">
         <circle cx="50" cy="50" r="46" fill="#e6f4fa" stroke="#2d7ea6" stroke-width="3"/>
         <circle cx="50" cy="50" r="38" fill="none" stroke="#4a9ec8" stroke-width="1.2" stroke-dasharray="4 3"/>
         <path d="M22 60 Q22 36 50 36 Q78 36 78 60 L78 70 Q50 60 22 70 Z" fill="#2d7ea6" opacity=".85"/>
@@ -481,7 +485,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <rect x="48.5" y="28" width="3" height="8" rx="1" fill="#b45309"/>
         <text x="50" y="83" text-anchor="middle" font-family="Georgia,serif" font-size="9.5" font-weight="700" fill="#1d5f82" letter-spacing="2.5">ANDHRA</text>
         <text x="50" y="93" text-anchor="middle" font-family="Georgia,serif" font-size="7.5" fill="#2d7ea6" letter-spacing="1.5">UNIVERSITY</text>
-      </svg>
     </div>
     <div class="brand-text">
       <h1>AU College of Engineering</h1>
@@ -590,9 +593,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
         <div>
           <div class="sec-hdr"><div class="sec-title">Campus Notices</div><div class="sec-link">View all <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round"/></svg></div></div>
           <div class="notices-grid">
-            <div class="notice-card"><span class="ntag nt-b">Academic</span><h4>Semester Registration Open</h4><p>Registration for Odd Semester 2025–26 is now open. Visit the Academic Section or use the portal to register before the deadline.</p></div>
+            <div class="notice-card"><span class="ntag nt-b">Academic</span><h4>Semester Registration Open</h4><p>Registration for Semester 2025–26 is now open.Use the student portal to register before the deadline.</p></div>
             <div class="notice-card"><span class="ntag nt-t">Smart Campus</span><h4>Smart Campus Phase 2 Launch</h4><p>QR-based building access and 3D navigation now live for all buildings on North Campus. Scan QR codes at building entrances.</p></div>
-            <div class="notice-card"><span class="ntag nt-o">Placement</span><h4>Campus Placement Drive — May 2025</h4><p>TCS, Infosys and Wipro campus placement drive scheduled. Final year students must register by April 20, 2025.</p></div>
           </div>
         </div>
       </div>
@@ -951,13 +953,13 @@ const departments = [
   {name:"Mechanical Engineering",abbr:"ME",hod:"Prof. P. Venkata Rao",students:240,block:"Block B, GF",phone:"0891-2844302",email:"me@auce.ac.in",labs:["Machine Tools Lab","Fluid Mechanics Lab","Thermal Lab"],desc:"Thermodynamics, manufacturing, design and robotics. Strong ties with BHEL, VSP and DRDO."},
   {name:"Electrical & Electronics Engg",abbr:"EEE",hod:"Prof. M. Ramesh",students:180,block:"Block C, 1F",phone:"0891-2844303",email:"eee@auce.ac.in",labs:["Power Systems Lab","Control Systems Lab","Machines Lab"],desc:"Power generation, electric drives, smart grids and renewable energy systems."},
   {name:"Electronics & Communication Engg",abbr:"ECE",hod:"Prof. V. Suresh",students:240,block:"Block C, 2F",phone:"0891-2844304",email:"ece@auce.ac.in",labs:["DSP Lab","VLSI Lab","Communication Lab"],desc:"VLSI design, embedded systems, signal processing, and wireless communication."},
-  {name:"Computer Science & Engineering",abbr:"CSE",hod:"Prof. T. Lakshmi Devi",students:240,block:"CSE Block, All",phone:"0891-2844305",email:"cse@auce.ac.in",labs:["Networks Lab","AI & ML Lab","Software Lab"],desc:"AI, machine learning, cloud computing and cybersecurity with state-of-the-art computing facilities."},
+  {name:"Computer Science & Engineering",abbr:"CSE",hod:"Prof Valli Kumari Vatsavayi",students:240,block:"CSE Block, All",phone:"0891-2844305",email:"cse@auce.ac.in",labs:["Networks Lab","AI & ML Lab","Software Lab"],desc:"AI, machine learning, cloud computing and cybersecurity with state-of-the-art computing facilities."},
   {name:"Information Technology",abbr:"IT",hod:"Prof. A. Krishna Rao",students:120,block:"CSE Block, 3F",phone:"0891-2844306",email:"it@auce.ac.in",labs:["Database Lab","Web Tech Lab","IoT Lab"],desc:"Software development, web technologies, database management, and IoT applications."},
   {name:"Chemical Engineering",abbr:"ChE",hod:"Prof. S. Padmavathi",students:60,block:"Block D, GF",phone:"0891-2844307",email:"che@auce.ac.in",labs:["Process Control Lab","Mass Transfer Lab"],desc:"Process engineering, petrochemicals, and environmental remediation."},
   {name:"Metallurgical Engineering",abbr:"Met",hod:"Prof. R. Babu",students:60,block:"Block D, 1F",phone:"0891-2844308",email:"met@auce.ac.in",labs:["Material Testing Lab","Heat Treatment Lab"],desc:"Metals, alloys, ceramics, and advanced materials processing."},
   {name:"Mining Engineering",abbr:"Min",hod:"Prof. G. Narayana",students:60,block:"Block E, GF",phone:"0891-2844309",email:"min@auce.ac.in",labs:["Rock Mechanics Lab","Mine Simulation Lab"],desc:"Surface and underground mining, mineral processing, and mine safety."},
   {name:"Architecture",abbr:"Arch",hod:"Prof. L. Prasad",students:40,block:"Architecture Block",phone:"0891-2844310",email:"arch@auce.ac.in",labs:["Design Studio","Model Making Lab","CAD Lab"],desc:"B.Arch — sustainable design, urban planning, and heritage conservation."},
-  {name:"Aerospace Engineering",abbr:"AE",hod:"Prof. K. Naidu",students:60,block:"Block F, GF",phone:"0891-2844311",email:"ae@auce.ac.in",labs:["Aerodynamics Lab","Propulsion Lab","Flight Simulation"],desc:"Aerodynamics, aircraft structures, propulsion, and aerospace systems design."},
+  {name:"Marine Engineering",abbr:"AE",hod:"Prof. K. Naidu",students:60,block:"Block F, GF",phone:"0891-2844311",email:"ae@auce.ac.in",labs:["Aerodynamics Lab","Propulsion Lab","Flight Simulation"],desc:"Aerodynamics, aircraft structures, propulsion, and aerospace systems design."},
   {name:"Bio-Technology",abbr:"BT",hod:"Prof. N. Sujatha",students:60,block:"Block F, 1F",phone:"0891-2844312",email:"bt@auce.ac.in",labs:["Microbiology Lab","Genetic Engineering Lab"],desc:"Biological sciences, biochemical processes, and bio-informatics."},
   {name:"Environmental Science",abbr:"ES",hod:"Prof. C. Hanumantha",students:40,block:"Block G, GF",phone:"0891-2844313",email:"es@auce.ac.in",labs:["Air Quality Lab","Remote Sensing Lab"],desc:"Environmental monitoring, waste management, pollution control, and sustainability."},
   {name:"Ocean Engineering",abbr:"OE",hod:"Prof. D. Rao",students:40,block:"Block G, 1F",phone:"0891-2844314",email:"oe@auce.ac.in",labs:["Wave Flume Lab","Coastal Structures Lab"],desc:"Offshore structures, coastal engineering, hydrodynamics, and marine operations."},
@@ -975,15 +977,18 @@ const departments = [
 ];
 
 const buildings = [
-  {name:"Administrative Block",type:"Administration",floor:"G+2",block:"Central Campus"},
-  {name:"CSE & IT Block",type:"Academic",floor:"G+3",block:"East Wing"},
+  {name:"Administrative Block(Principal Office)",type:"Administration",floor:"G+2",block:"Central Campus"},
+  {name:"Computer Science And Systems Engineering",type:"Academic",floor:"G+3",block:"East Wing"},
+  {name:"Algorithm Building",type:"Academic",floor:"G+4",block:"East Wing"},
+  {name:"Information Technology And Computer Applications",type:"Academic",floor:"G+3",block:"East Wing"},
+  {name:"Electronics And Communications Engineering",type:"Academic",floor:"G+3",block:"East Wing"},
   {name:"Mechanical Engineering Block",type:"Academic",floor:"G+2",block:"West Wing"},
-  {name:"EEE/ECE Block (Block C)",type:"Academic",floor:"G+2",block:"North Wing"},
-  {name:"Chemical & Metallurgical (Block D)",type:"Academic",floor:"G+1",block:"South Wing"},
-  {name:"Mining Engineering (Block E)",type:"Academic",floor:"G+1",block:"South Campus"},
+  {name:"Electrical Engineering",type:"Academic",floor:"G+2",block:"North Wing"},
+  {name:"Chemical Engineering(Block D)",type:"Academic",floor:"G+1",block:"South Wing"},
+  {name:"Metallurgy Engineering (Block E)",type:"Academic",floor:"G+1",block:"South Campus"},
   {name:"Architecture Block",type:"Academic",floor:"G+2",block:"Design Zone"},
-  {name:"Aerospace & Bio-Tech (Block F)",type:"Academic",floor:"G+1",block:"Research Wing"},
-  {name:"Environmental & Ocean Eng (Block G)",type:"Academic",floor:"G+1",block:"North East"},
+  {name:"Bio-Tech (Block F)",type:"Academic",floor:"G+1",block:"Chemical Engineering"},
+  {name:"Geo Eng (Block G)",type:"Academic",floor:"G+1",block:"North East"},
   {name:"Petroleum & Instrumentation (Block H)",type:"Academic",floor:"G+1",block:"East Campus"},
   {name:"Science Departments (Block I)",type:"Academic",floor:"G+2",block:"Central"},
   {name:"Humanities & Management (Block J)",type:"Academic",floor:"G+1",block:"Main Road"},
@@ -991,15 +996,14 @@ const buildings = [
   {name:"Energy Systems Block (Block L)",type:"Research",floor:"G+1",block:"Research Zone"},
   {name:"Central Library",type:"Facility",floor:"G+1",block:"Central Zone"},
   {name:"Research & Labs Complex",type:"Research",floor:"G+2",block:"North East"},
-  {name:"Main Auditorium",type:"Events",floor:"Ground",block:"Central South"},
+  {name:"YVS MurthyAuditorium",type:"Events",floor:"Ground",block:"Central South"},
   {name:"Seminar Hall A",type:"Events",floor:"Ground",block:"Admin Block"},
   {name:"Medical Centre",type:"Facility",floor:"Ground",block:"Near Main Gate"},
-  {name:"SBI Bank & ATM",type:"Facility",floor:"Ground",block:"Commerce Zone"},
-  {name:"Campus Post Office",type:"Facility",floor:"Ground",block:"Central"},
+  {name:"Union Bank & ATM",type:"Facility",floor:"Ground",block:"Commerce Zone"},
   {name:"Boys Hostel Complex",type:"Residential",floor:"G+3",block:"North Residential"},
   {name:"Girls Hostel Complex",type:"Residential",floor:"G+3",block:"South Residential"},
   {name:"Sports Complex",type:"Sports",floor:"Ground",block:"South Campus"},
-  {name:"Central Canteen",type:"Facility",floor:"Ground",block:"Central Campus"}
+  {name:"Canteen",type:"Facility",floor:"3rd Floor",block:"Central Campus"}
 ];
 
 const qrBuildings=[
@@ -1014,12 +1018,10 @@ const qrBuildings=[
 ];
 
 const events=[
-  {day:"12",mon:"APR",title:"TECHNOVA 2025 — National Technical Fest",loc:"Main Auditorium & Open Ground",tag:"Technical",desc:"Annual national-level technical festival with paper presentations, hackathon, robotics competitions, and industry talks."},
+  {day:"12",mon:"APR",title:"AURAx2026 —Technical And Cultural Fest",loc:"Main Auditorium & Open Ground",tag:"Technical",desc:"Annual national-level technical festival with paper presentations, hackathon, robotics competitions, and industry talks."},
   {day:"18",mon:"APR",title:"Semester Registration Deadline",loc:"Academic Section / Online Portal",tag:"Academic",desc:"Last date for Odd Semester 2025–26 registration. Late fee applicable after this date."},
-  {day:"22",mon:"APR",title:"AUCE Alumni Meet 2025",loc:"Dr. B.R. Ambedkar Hall",tag:"Alumni",desc:"Annual alumni gathering — cultural programme and networking dinner included. Open to all batches."},
-  {day:"05",mon:"MAY",title:"Placement Orientation — Final Years",loc:"Seminar Hall, Admin Block",tag:"Placement",desc:"Pre-placement training and company briefing for B.Tech 4th year and M.Tech students."},
-  {day:"10",mon:"MAY",title:"Workshop on AI & Deep Learning",loc:"CSE Department, 3rd Floor",tag:"Workshop",desc:"Two-day hands-on workshop by IIT Hyderabad faculty. Limited seats — register via portal."},
-  {day:"15",mon:"MAY",title:"Annual Sports Day",loc:"AUCE Sports Ground",tag:"Sports",desc:"Inter-department sports championship — cricket, volleyball, athletics, and chess."}
+  {day:"22",mon:"APR",title:"AUCE Alumni Meet 2026",loc:"Dr. B.R. Ambedkar Hall",tag:"Alumni",desc:"Annual alumni gathering — cultural programme and networking dinner included. Open to all batches."},
+  
 ];
 
 const services=[
